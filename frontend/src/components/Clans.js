@@ -1,0 +1,15 @@
+export const CLANS = [
+  "Ventrue",
+  "Tremere",
+  "Toreador",
+  "Brujah",
+  "Gangrel",
+  "Malkavian",
+  "Nosferatu",
+  "Followers of Set",
+  "Giovanni",
+  "Ravnos",
+  "Tzimisce",
+  "Assamite",
+  "Losambra",
+];
