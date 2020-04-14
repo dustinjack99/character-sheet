@@ -25,13 +25,15 @@ interface DotProps {
 }
 
 const Dot: FC<DotProps> = ({ filled, onClick }) => (
-  <button onClick={onClick}>
+  <button className="statButt" onClick={onClick}>
     <svg height={DOT_SIZE} width={DOT_SIZE} viewBox="0 0 100 100">
-      <circle
+      <ellipse
         cx="50"
         cy="50"
-        r="40"
+        rx="36"
+        ry="40"
         stroke="black"
+        strokeWidth="12"
         fill={filled ? "black" : "white"}
       />
     </svg>

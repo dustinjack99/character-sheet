@@ -8,8 +8,8 @@ export interface DataListProps {
 export const DataList = ({ list, id }: DataListProps) => {
   return (
     <datalist id={id}>
-      {list.map((disc) => (
-        <option value={disc} />
+      {list.map((val, i) => (
+        <option key={i} value={val} />
       ))}
     </datalist>
   );

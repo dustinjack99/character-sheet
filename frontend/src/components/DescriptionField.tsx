@@ -9,7 +9,7 @@ interface Props {
 const DescriptionField: FC<Props> = (props) => {
   return (
     <div>
-      {props.label}
+      <h4>{props.label}</h4>
       <input
         type="text"
         value={props.value}
