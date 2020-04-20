@@ -5,7 +5,7 @@ import { NATUREDEMEANOR } from "./NatureDemeanor";
 import { CLANS } from "./Clans";
 import { BACKGROUNDS } from "./Backgrounds";
 import { StatButtons } from "./StatButtons";
-import { DISCIPLINES } from "./Disciplines";
+import { DISCIPLINES_IMP } from "./Disciplines";
 import { DataList } from "./DataList";
 import {
   Description,
@@ -13,18 +13,90 @@ import {
   Attribute,
   Attributes,
   Ability,
+  Abilities,
+  Discipline,
+  Disciplines,
+  Backgrounds,
+  Background,
+  Virtue,
+  Virtues,
 } from "./CharacterSheetPage";
 
 export interface SheetProps {
   description: Description;
   attributes: Attributes;
+  abilities: Abilities;
+  disciplines: Disciplines;
+  backgrounds: Backgrounds;
+  virtues: Virtues;
   changeDescription: (key: DescriptionKey, newVal: string) => void;
   updateAttribute: (attr: Attribute, newVal: number) => void;
+  updateAbility: (ab: Ability, newVal: number) => void;
+  updateDiscipline: (disc: Discipline, newVal: number) => void;
+  updateBackground: (back: Background, newVal: number) => void;
+  updateVirtue: (vir: Virtue, newVal: number) => void;
 }
 
 const PHYSICAL_ATTRS: Attribute[] = ["strength", "dexterity", "stamina"];
 const SOCIAL_ATTRS: Attribute[] = ["charisma", "manipulation", "appearance"];
 const MENTAL_ATTRS: Attribute[] = ["perception", "intelligence", "wits"];
+const TALENT_ABS: Ability[] = [
+  "alertness",
+  "athletics",
+  "awareness",
+  "brawl",
+  "empathy",
+  "expression",
+  "intimidation",
+  "leadership",
+  "streetwise",
+  "subterfuge",
+];
+const SKILLS_ABS: Ability[] = [
+  "animalken",
+  "crafts",
+  "drive",
+  "etiquette",
+  "firearms",
+  "larceny",
+  "melee",
+  "performance",
+  "stealth",
+  "survival",
+];
+const KNOWLEDGES_ABS: Ability[] = [
+  "academics",
+  "computer",
+  "finance",
+  "investigation",
+  "law",
+  "medicine",
+  "occult",
+  "politics",
+  "science",
+  "technology",
+];
+const DISCIPLINES_LIST: Discipline[] = [
+  "disciplineOne",
+  "disciplineTwo",
+  "disciplineThree",
+  "disciplineFour",
+  "disciplineFive",
+  "disciplineSix",
+];
+const BACKGROUNDS_LIST: Background[] = [
+  "backgroundOne",
+  "backgroundTwo",
+  "backgroundThree",
+  "backgroundFour",
+  "backgroundFive",
+  "backgroundSix",
+];
+const VIRTUES_LIST: Virtue[] = [
+  "conscienceConviction",
+  "selfControlInstinct",
+  "courage",
+];
 
 const Sheet: FC<SheetProps> = (props) => {
   const attrGroup = (attrs: Attribute[]) => {
@@ -38,12 +110,54 @@ const Sheet: FC<SheetProps> = (props) => {
     ));
   };
 
+  const abGroup = (abs: Ability[]) => {
+    return abs.map((ab, i) => (
+      <AbField
+        key={i}
+        ab={ab}
+        abilities={props.abilities}
+        updateAbility={props.updateAbility}
+      />
+    ));
+  };
+  const discGroup = (discs: Discipline[]) => {
+    return discs.map((disc, i) => (
+      <DiscField
+        key={i}
+        disc={disc}
+        disciplines={props.disciplines}
+        updateDiscipline={props.updateDiscipline}
+      />
+    ));
+  };
+  const backGroup = (backs: Background[]) => {
+    return backs.map((back, i) => (
+      <BackField
+        key={i}
+        back={back}
+        backgrounds={props.backgrounds}
+        updateBackground={props.updateBackground}
+      />
+    ));
+  };
+
+  const virGroup = (virs: Virtue[]) => {
+    return virs.map((vir, i) => (
+      <VirField
+        key={i}
+        vir={vir}
+        virtues={props.virtues}
+        updateVirtue={props.updateVirtue}
+      />
+    ));
+  };
+
   return (
     <>
       <DataList id="natDem" list={NATUREDEMEANOR} />
       <DataList id="clans" list={CLANS} />
       <DataList id={"backgrounds"} list={BACKGROUNDS} />
-      <DataList id={"disciplines"} list={DISCIPLINES} />
+      <DataList id={"disciplines"} list={DISCIPLINES_IMP} />
       <main>
         <h1>Vampire</h1>
         <h4>Description</h4>
@@ -129,186 +243,34 @@ const Sheet: FC<SheetProps> = (props) => {
         <div className="allAbs">
           <div className="abilitiesLeft">
             <h3>Talents</h3>
-            <h4>
-              Alertness
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Athletics
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Awareness
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Brawl
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Empathy
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Expression
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Intimidation
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Leadership
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Streetwise
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Subterfuge
-              <StatButtons value={3} update={() => {}} />
-            </h4>
+            {abGroup(TALENT_ABS)}
           </div>
 
           <div className="abilitiesMid">
             <h3>Skills</h3>
-            <h4>
-              AnimalKen
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Crafts
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Drive
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Etiquette
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Firearms
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Larceny
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Melee
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Performance
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Stealth
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Survival
-              <StatButtons value={3} update={() => {}} />
-            </h4>
+            {abGroup(SKILLS_ABS)}
           </div>
 
           <div className="abilitiesRight">
             <h3>Knowledges</h3>
-            <h4>
-              Academics
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Computer
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Finance
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Investigation
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Law
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Medicine
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Occult
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Politics
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Science
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Technology
-              <StatButtons value={3} update={() => {}} />
-            </h4>
+            {abGroup(KNOWLEDGES_ABS)}
           </div>
         </div>
         <h2>Advantages</h2>
         <div className="allAdv">
           <div className="disciplines">
             <h3>Disciplines</h3>
-
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="disciplines" />
-            <StatButtons value={3} update={() => {}} />
+            {discGroup(DISCIPLINES_LIST)}
           </div>
 
           <div className="backgrounds">
             <h3>Backgrounds</h3>
-
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
-            <input list="backgrounds" />
-            <StatButtons value={3} update={() => {}} />
+            {backGroup(BACKGROUNDS_LIST)}
           </div>
 
           <div className="virtues">
             <h3>Virtues</h3>
-            <h4>
-              Conscience / Convicton
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Self-Control / Instinct
-              <StatButtons value={3} update={() => {}} />
-            </h4>
-            <h4>
-              Courage
-              <StatButtons value={3} update={() => {}} />
-            </h4>
+            {virGroup(VIRTUES_LIST)}
           </div>
         </div>
 
@@ -399,6 +361,41 @@ interface AttrFieldProps {
   updateAttribute: (attr: Attribute, newVal: number) => void;
 }
 
+interface AbFieldProps {
+  ab: Ability;
+  abilities: Abilities;
+  updateAbility: (ab: Ability, newVal: number) => void;
+}
+interface DiscFieldProps {
+  disc: Discipline;
+  disciplines: Disciplines;
+  updateDiscipline: (disc: Discipline, newVal: number) => void;
+}
+interface BackFieldProps {
+  back: Background;
+  backgrounds: Backgrounds;
+  updateBackground: (back: Background, newVal: number) => void;
+}
+interface VirFieldProps {
+  vir: Virtue;
+  virtues: Virtues;
+  updateVirtue: (vir: Virtue, newVal: number) => void;
+}
+
+const AbField: FC<AbFieldProps> = ({ ab, abilities, updateAbility }) => {
+  const label = titleCase(ab);
+  const value = abilities[ab];
+  return (
+    <h4>
+      {label}
+      <StatButtons
+        value={value}
+        update={(newVal) => updateAbility(ab, newVal)}
+      />
+    </h4>
+  );
+};
+
 const AttrField: FC<AttrFieldProps> = ({
   attr,
   attributes,
@@ -417,6 +414,54 @@ const AttrField: FC<AttrFieldProps> = ({
   );
 };
 
-function titleCase(s: Attribute | Ability): string {
+const VirField: FC<VirFieldProps> = ({ vir, virtues, updateVirtue }) => {
+  const label = titleCase(vir);
+  const value = virtues[vir];
+  return (
+    <h4>
+      {label}
+      <StatButtons
+        value={value}
+        update={(newVal) => updateVirtue(vir, newVal)}
+      />
+    </h4>
+  );
+};
+
+const BackField: FC<BackFieldProps> = ({
+  back,
+  backgrounds,
+  updateBackground,
+}) => {
+  const value = backgrounds[back];
+  return (
+    <>
+      <input list="backgrounds" />
+      <StatButtons
+        value={value}
+        update={(newVal) => updateBackground(back, newVal)}
+      />
+    </>
+  );
+};
+
+const DiscField: FC<DiscFieldProps> = ({
+  disc,
+  disciplines,
+  updateDiscipline,
+}) => {
+  const value = disciplines[disc];
+  return (
+    <>
+      <input list="disciplines" />
+      <StatButtons
+        value={value}
+        update={(newVal) => updateDiscipline(disc, newVal)}
+      />
+    </>
+  );
+};
+
+function titleCase(s: Attribute | Ability | Virtue): string {
   return s.slice(0, 1).toUpperCase() + s.slice(1);
 }

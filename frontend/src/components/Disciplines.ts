@@ -1,4 +1,4 @@
-export const DISCIPLINES = [
+export const DISCIPLINES_IMP = [
   "Animalism",
   "Auspex",
   "Celerity",
