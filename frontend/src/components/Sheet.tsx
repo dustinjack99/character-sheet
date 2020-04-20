@@ -26,16 +26,6 @@ const PHYSICAL_ATTRS: Attribute[] = ["strength", "dexterity", "stamina"];
 const SOCIAL_ATTRS: Attribute[] = ["charisma", "manipulation", "appearance"];
 const MENTAL_ATTRS: Attribute[] = ["perception", "intelligence", "wits"];
 
-function elementPops(eleNum: number, ele: ReactElement): ReactElement[] {
-  //DO NOT USE FOR DYNAMIC LISTS! User can't Upload / Delete because keys are wrong.
-  const eleArray = [];
-  for (let i = 0; i < eleNum; i++) {
-    _.times;
-    eleArray.push(ele);
-  }
-  return eleArray;
-}
-
 const Sheet: FC<SheetProps> = (props) => {
   const attrGroup = (attrs: Attribute[]) => {
     return attrs.map((attr, i) => (
@@ -334,19 +324,21 @@ const Sheet: FC<SheetProps> = (props) => {
 
             <div className="willpower">
               <h3>Willpower</h3>
-              {elementPops(
-                10,
-                <input type="checkbox" className="willpowerchx" />
-              )}
+              {_.times(10, (i) => {
+                return (
+                  <input key={i} type="checkbox" className="willpowerchx" />
+                );
+              })}
               {/* {elementPops(10, <button className="willpowerBtn" />)} */}
             </div>
 
             <div className="bloodpool">
               <h3>Blood Pool</h3>
-              {elementPops(
-                20,
-                <input type="checkbox" className="bloodpoolchx" />
-              )}
+              {_.times(20, (i) => {
+                return (
+                  <input key={i} type="checkbox" className="bloodpoolchx" />
+                );
+              })}
             </div>
           </div>
 
