@@ -1,6 +1,12 @@
+import bodyParser from "body-parser";
+import { Client, Message } from "discord.js";
+import dotenv from "dotenv";
 import express from "express";
 import path from "path";
-import bodyParser from "body-parser";
+
+// Config
+
+dotenv.config();
 
 const FRONTEND_PATH = "../frontend/build";
 
@@ -10,6 +16,29 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 app.use(bodyParser.json());
+
+// Discord
+
+const token = process.env.DISCORD_TOKEN;
+if (!token) {
+  throw new Error("DISCORD_TOKEN not set");
+}
+const channelId = process.env.CHANNEL_ID;
+if (!channelId) {
+  throw new Error("CHANNEL_ID not set");
+}
+
+const discord = new Client();
+
+discord.once("ready", () => {
+  console.log("discord client ready");
+});
+
+discord.on("message", (msg: Message) => {
+  console.log("Got discord message:", msg.content);
+});
+
+discord.login(token);
 
 // Api routing
 
