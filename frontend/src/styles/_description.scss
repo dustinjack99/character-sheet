@@ -1,0 +1,12 @@
+.description {
+  border: 5px black solid;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.descMid,
+.descLeft,
+.descRight {
+  text-decoration: underline;
+}

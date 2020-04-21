@@ -5,6 +5,9 @@ import { NATUREDEMEANOR } from "./NatureDemeanor";
 import { CLANS } from "./Clans";
 import { BACKGROUNDS } from "./Backgrounds";
 import { StatButtons } from "./StatButtons";
+import { WillButtons } from "./StatButtons";
+import { HumButtons } from "./StatButtons";
+import { BloodButtons } from "./StatButtons";
 import { DISCIPLINES_IMP } from "./Disciplines";
 import { DataList } from "./DataList";
 import {
@@ -20,6 +23,12 @@ import {
   Background,
   Virtue,
   Virtues,
+  Humanity,
+  Humanities,
+  Bloodpool,
+  Bloodpools,
+  Willpower,
+  Willpowers,
 } from "./CharacterSheetPage";
 
 export interface SheetProps {
@@ -29,12 +38,18 @@ export interface SheetProps {
   disciplines: Disciplines;
   backgrounds: Backgrounds;
   virtues: Virtues;
+  humanities: Humanities;
+  willpowers: Willpowers;
+  bloodpools: Bloodpools;
   changeDescription: (key: DescriptionKey, newVal: string) => void;
   updateAttribute: (attr: Attribute, newVal: number) => void;
   updateAbility: (ab: Ability, newVal: number) => void;
   updateDiscipline: (disc: Discipline, newVal: number) => void;
   updateBackground: (back: Background, newVal: number) => void;
   updateVirtue: (vir: Virtue, newVal: number) => void;
+  updateHumanities: (hum: Humanity, newVal: number) => void;
+  updateWillpowers: (will: Willpower, newVal: number) => void;
+  updateBoodpools: (blood: Bloodpool, newVal: number) => void;
 }
 
 const PHYSICAL_ATTRS: Attribute[] = ["strength", "dexterity", "stamina"];
@@ -98,6 +113,12 @@ const VIRTUES_LIST: Virtue[] = [
   "courage",
 ];
 
+const HUMANITIES_LIST: Humanity[] = ["humanity"];
+
+const BLOOD_POOL: Bloodpool[] = ["bloodpool"];
+
+const WILLPOWERS: Willpower[] = ["willpower", "willpowerChx"];
+
 const Sheet: FC<SheetProps> = (props) => {
   const attrGroup = (attrs: Attribute[]) => {
     return attrs.map((attr, i) => (
@@ -148,6 +169,39 @@ const Sheet: FC<SheetProps> = (props) => {
         vir={vir}
         virtues={props.virtues}
         updateVirtue={props.updateVirtue}
+      />
+    ));
+  };
+
+  const humGroup = (hums: Humanity[]) => {
+    return hums.map((hum, i) => (
+      <HumField
+        key={i}
+        hum={hum}
+        humanities={props.humanities}
+        updateHumanities={props.updateHumanities}
+      />
+    ));
+  };
+
+  const bloodGroup = (bloods: Bloodpool[]) => {
+    return bloods.map((blood, i) => (
+      <BloodField
+        key={i}
+        blood={blood}
+        bloodpools={props.bloodpools}
+        updateBloodpools={props.updateBloodpools}
+      />
+    ));
+  };
+
+  const willGroup = (wills: Humanity[]) => {
+    return wills.map((will, i) => (
+      <WillField
+        key={i}
+        will={will}
+        willpowers={props.willpowers}
+        updateWillpowers={props.updatewillpowers}
       />
     ));
   };
@@ -221,7 +275,9 @@ const Sheet: FC<SheetProps> = (props) => {
             />
           </div>
         </div>
-        <h2>Attributes</h2>
+        <h2>
+          <span>Attributes</span>
+        </h2>
         <div className="allAtts">
           <div className="attributesLeft">
             <h3 className="attTitle">Physical</h3>
@@ -239,7 +295,9 @@ const Sheet: FC<SheetProps> = (props) => {
           </div>
         </div>
 
-        <h2>Abilities</h2>
+        <h2>
+          <span>Abilities</span>
+        </h2>
         <div className="allAbs">
           <div className="abilitiesLeft">
             <h3>Talents</h3>
@@ -256,7 +314,9 @@ const Sheet: FC<SheetProps> = (props) => {
             {abGroup(KNOWLEDGES_ABS)}
           </div>
         </div>
-        <h2>Advantages</h2>
+        <h2>
+          <span>Advantages</span>
+        </h2>
         <div className="allAdv">
           <div className="disciplines">
             <h3>Disciplines</h3>
@@ -279,29 +339,9 @@ const Sheet: FC<SheetProps> = (props) => {
             {/* <textarea rows="35" cols="10"></textarea> */}
           </div>
           <div className="sheetBottomMid">
-            <div className="humanity">
-              <h3>Humanity</h3>
-              <button className="humanitybtn" />
-            </div>
-
-            <div className="willpower">
-              <h3>Willpower</h3>
-              {_.times(10, (i) => {
-                return (
-                  <input key={i} type="checkbox" className="willpowerchx" />
-                );
-              })}
-              {/* {elementPops(10, <button className="willpowerBtn" />)} */}
-            </div>
-
-            <div className="bloodpool">
-              <h3>Blood Pool</h3>
-              {_.times(20, (i) => {
-                return (
-                  <input key={i} type="checkbox" className="bloodpoolchx" />
-                );
-              })}
-            </div>
+            {humGroup(HUMANITIES_LIST)}
+            {willGroup(WILLPOWERS)}
+            {bloodGroup(BLOOD_POOL)}
           </div>
 
           <div className="sheetBottomRight">
@@ -380,6 +420,23 @@ interface VirFieldProps {
   vir: Virtue;
   virtues: Virtues;
   updateVirtue: (vir: Virtue, newVal: number) => void;
+}
+interface HumFieldProps {
+  hum: Humanity;
+  humanities: Humanities;
+  updateHumanities: (hum: Humanity, newVal: number) => void;
+}
+
+interface WillFieldProps {
+  will: Willpower;
+  willpowers: Willpowers;
+  updateWillpowers: (will: Willpower, newVal: number) => void;
+}
+
+interface BloodFieldProps {
+  blood: Bloodpool;
+  bloodpools: Bloodpools;
+  updateBloodpools: (blood: Bloodpool, newVal: number) => void;
 }
 
 const AbField: FC<AbFieldProps> = ({ ab, abilities, updateAbility }) => {
@@ -462,6 +519,64 @@ const DiscField: FC<DiscFieldProps> = ({
   );
 };
 
-function titleCase(s: Attribute | Ability | Virtue): string {
+const HumField: FC<HumFieldProps> = ({ hum, humanities, updateHumanities }) => {
+  const value = humanities[hum];
+  const label = titleCase(hum);
+  console.log(hum);
+  console.log(humanities);
+  return (
+    <div className="humanity">
+      <h3>{label}</h3>
+      <HumButtons
+        value={value}
+        update={(newVal) => updateHumanities(hum, newVal)}
+      />
+    </div>
+  );
+};
+
+const WillField: FC<WillFieldProps> = ({
+  will,
+  willpowers,
+  updateWillpowers,
+}) => {
+  const value = willpowers[will];
+  const label = titleCase(will);
+  console.log(will);
+  console.log(willpowers);
+  return (
+    <div className="willpower">
+      <h3>{label}</h3>
+      <WillButtons
+        value={value}
+        update={(newVal) => updateWillpowers(will, newVal)}
+      />
+    </div>
+  );
+};
+
+const BloodField: FC<BloodFieldProps> = ({
+  blood,
+  bloodpools,
+  updateBloodpools,
+}) => {
+  const value = bloodpools[blood];
+  const label = titleCase(blood);
+  console.log(blood);
+  console.log(bloodpools);
+  return (
+    <div className="bloodpool">
+      <h3>{label}</h3>
+      <BloodButtons
+        value={value}
+        update={(newVal) => updateBloodpools(blood, newVal)}
+      />
+    </div>
+  );
+};
+
+function titleCase(
+  s: Attribute | Ability | Virtue | Humanity | Bloodpool | Willpower
+): string {
   return s.slice(0, 1).toUpperCase() + s.slice(1);
 }

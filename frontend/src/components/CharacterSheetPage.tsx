@@ -83,12 +83,34 @@ const initialSheet = {
     selfControlInstinct: 0,
     courage: 0,
   },
+
+  humanities: {
+    humanity: 0,
+  },
+
+  bloodpools: {
+    bloodpool: 0,
+  },
+
+  willpowers: {
+    willpower: 0,
+    willpowerChx: 0,
+  },
 };
 
 type SheetState = typeof initialSheet;
 
 export type Description = typeof initialSheet.description;
 export type DescriptionKey = keyof Description;
+
+export type Humanities = typeof initialSheet.humanities;
+export type Humanity = keyof Humanities;
+
+export type Willpowers = typeof initialSheet.willpowers;
+export type Willpower = keyof Willpowers;
+
+export type Bloodpools = typeof initialSheet.bloodpools;
+export type Bloodpool = keyof Bloodpools;
 
 export type Attributes = typeof initialSheet.attributes;
 export type Attribute = keyof Attributes;
@@ -170,6 +192,30 @@ class CharacterSheetPage extends Component<{}, SheetState> {
     });
   };
 
+  updateHumanities = (hum: Humanity, newValue: number) => {
+    const humanities = this.state.humanities;
+    const newHumanities = { ...humanities, [hum]: newValue };
+    this.setState({
+      humanities: newHumanities,
+    });
+  };
+
+  updateBloodpools = (blood: Bloodpool, newValue: number) => {
+    const bloodpools = this.state.bloodpools;
+    const newBloodpools = { ...bloodpools, [blood]: newValue };
+    this.setState({
+      bloodpools: newBloodpools,
+    });
+  };
+
+  updateWillpowers = (hum: Willpower, newValue: number) => {
+    const willpowers = this.state.willpowers;
+    const newWillpowers = { ...willpowers, [hum]: newValue };
+    this.setState({
+      willpowers: newWillpowers,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -181,6 +227,9 @@ class CharacterSheetPage extends Component<{}, SheetState> {
           updateDiscipline={this.updateDiscipline}
           updateBackground={this.updateBackground}
           updateVirtue={this.updateVirtue}
+          updateHumanities={this.updateHumanities}
+          updateBloodpools={this.updateBloodpools}
+          updateWillpowers={this.updateWillpowers}
         />
       </div>
     );
