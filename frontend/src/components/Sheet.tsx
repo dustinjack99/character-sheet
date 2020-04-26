@@ -29,6 +29,8 @@ import {
   Bloodpools,
   Willpower,
   Willpowers,
+  Health,
+  Healths,
 } from "./CharacterSheetPage";
 
 export interface SheetProps {
@@ -41,6 +43,7 @@ export interface SheetProps {
   humanities: Humanities;
   willpowers: Willpowers;
   bloodpools: Bloodpools;
+  healths: Healths;
   changeDescription: (key: DescriptionKey, newVal: string) => void;
   updateAttribute: (attr: Attribute, newVal: number) => void;
   updateAbility: (ab: Ability, newVal: number) => void;
@@ -49,7 +52,8 @@ export interface SheetProps {
   updateVirtue: (vir: Virtue, newVal: number) => void;
   updateHumanities: (hum: Humanity, newVal: number) => void;
   updateWillpowers: (will: Willpower, newVal: number) => void;
-  updateBoodpools: (blood: Bloodpool, newVal: number) => void;
+  updateBloodpools: (blood: Bloodpool, newVal: number) => void;
+  updateHealths: (health: Health, newVal: number) => void;
 }
 
 const PHYSICAL_ATTRS: Attribute[] = ["strength", "dexterity", "stamina"];
@@ -117,9 +121,19 @@ const HUMANITIES_LIST: Humanity[] = ["humanity"];
 
 const BLOOD_POOL: Bloodpool[] = ["bloodpool"];
 
-const WILLPOWERS: Willpower[] = ["willpower", "willpowerChx"];
+const WILLPOWERS: Willpower[] = ["willpower"];
 
-const Sheet: FC<SheetProps> = (props) => {
+const HEALTHS: Health[] = [
+  "bruised",
+  "crippled",
+  "hurt",
+  "incapacitated",
+  "injured",
+  "mauled",
+  "wounded",
+];
+
+const Sheet: FC<SheetProps> = props => {
   const attrGroup = (attrs: Attribute[]) => {
     return attrs.map((attr, i) => (
       <AttrField
@@ -195,13 +209,26 @@ const Sheet: FC<SheetProps> = (props) => {
     ));
   };
 
-  const willGroup = (wills: Humanity[]) => {
+  const willGroup = (wills: Willpower[]) => {
     return wills.map((will, i) => (
       <WillField
         key={i}
         will={will}
         willpowers={props.willpowers}
-        updateWillpowers={props.updatewillpowers}
+        updateWillpowers={props.updateWillpowers}
+      />
+    ));
+  };
+
+  
+  TODO: make function, takes number, toggles damage
+  const healGroup = (heals: boolean[], toggleDmg: (i: number) => void) => {
+    return heals.map((damaged, i) => (
+      <input
+        type="checkbox"
+        key={i}
+        checked={damaged}
+        onChange={() => toggleDmg(i)}
       />
     ));
   };
@@ -220,21 +247,21 @@ const Sheet: FC<SheetProps> = (props) => {
             <DescriptionField
               label="Name:"
               value={props.description.name}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("name", e.target.value);
               }}
             />
             <DescriptionField
               label="Player:"
               value={props.description.player}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("player", e.target.value);
               }}
             />
             <DescriptionField
               label="Chronicle:"
               value={props.description.chronicle}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("chronicle", e.target.value);
               }}
             />
@@ -253,7 +280,7 @@ const Sheet: FC<SheetProps> = (props) => {
             <DescriptionField
               label="Generation:"
               value={props.description.generation}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("generation", e.target.value);
               }}
             />
@@ -261,7 +288,7 @@ const Sheet: FC<SheetProps> = (props) => {
             <DescriptionField
               label="Sire:"
               value={props.description.haven}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("sire", e.target.value);
               }}
             />
@@ -269,7 +296,7 @@ const Sheet: FC<SheetProps> = (props) => {
             <DescriptionField
               label="Concept:"
               value={props.description.concept}
-              updateValue={(e) => {
+              updateValue={e => {
                 props.changeDescription("concept", e.target.value);
               }}
             />
@@ -347,38 +374,7 @@ const Sheet: FC<SheetProps> = (props) => {
           <div className="sheetBottomRight">
             <div className="health">
               <h3>Health</h3>
-              <div>
-                <label htmlFor="bruised">Bruised</label>
-                <input name="bruised" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="hurt">Hurt -1</label>
-                <input name="hurt" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="injured">Injured -1</label>
-                <input name="injured" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="wounded">Wounded -2</label>
-                <input name="wounded" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="mauled">Mauled -2</label>
-                <input name="mauled" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="crippled">Crippled -5</label>
-                <input name="crippled" type="checkbox" className="healthchx" />
-              </div>
-              <div>
-                <label htmlFor="incapacitated">Incapacitated</label>
-                <input
-                  name="incapacitated"
-                  type="checkbox"
-                  className="healthchx"
-                />
-              </div>
+              {healGroup(HEALTHS)}
             </div>
             <div className="weaknessExperience">
               <h3>Weakness</h3>
@@ -438,6 +434,11 @@ interface BloodFieldProps {
   bloodpools: Bloodpools;
   updateBloodpools: (blood: Bloodpool, newVal: number) => void;
 }
+interface HealFieldProps {
+  heal: Health;
+  healths: Healths;
+  updateHealths: (heal: Health, newVal: number) => void;
+}
 
 const AbField: FC<AbFieldProps> = ({ ab, abilities, updateAbility }) => {
   const label = titleCase(ab);
@@ -445,10 +446,7 @@ const AbField: FC<AbFieldProps> = ({ ab, abilities, updateAbility }) => {
   return (
     <h4>
       {label}
-      <StatButtons
-        value={value}
-        update={(newVal) => updateAbility(ab, newVal)}
-      />
+      <StatButtons value={value} update={newVal => updateAbility(ab, newVal)} />
     </h4>
   );
 };
@@ -465,7 +463,7 @@ const AttrField: FC<AttrFieldProps> = ({
       {label}
       <StatButtons
         value={value}
-        update={(newVal) => updateAttribute(attr, newVal)}
+        update={newVal => updateAttribute(attr, newVal)}
       />
     </h4>
   );
@@ -477,10 +475,7 @@ const VirField: FC<VirFieldProps> = ({ vir, virtues, updateVirtue }) => {
   return (
     <h4>
       {label}
-      <StatButtons
-        value={value}
-        update={(newVal) => updateVirtue(vir, newVal)}
-      />
+      <StatButtons value={value} update={newVal => updateVirtue(vir, newVal)} />
     </h4>
   );
 };
@@ -496,7 +491,7 @@ const BackField: FC<BackFieldProps> = ({
       <input list="backgrounds" />
       <StatButtons
         value={value}
-        update={(newVal) => updateBackground(back, newVal)}
+        update={newVal => updateBackground(back, newVal)}
       />
     </>
   );
@@ -513,7 +508,7 @@ const DiscField: FC<DiscFieldProps> = ({
       <input list="disciplines" />
       <StatButtons
         value={value}
-        update={(newVal) => updateDiscipline(disc, newVal)}
+        update={newVal => updateDiscipline(disc, newVal)}
       />
     </>
   );
@@ -529,7 +524,7 @@ const HumField: FC<HumFieldProps> = ({ hum, humanities, updateHumanities }) => {
       <h3>{label}</h3>
       <HumButtons
         value={value}
-        update={(newVal) => updateHumanities(hum, newVal)}
+        update={newVal => updateHumanities(hum, newVal)}
       />
     </div>
   );
@@ -540,7 +535,8 @@ const WillField: FC<WillFieldProps> = ({
   willpowers,
   updateWillpowers,
 }) => {
-  const value = willpowers[will];
+  const value = willpowers["willpower"];
+  const value2 = willpowers["willpowerChx"];
   const label = titleCase(will);
   console.log(will);
   console.log(willpowers);
@@ -549,7 +545,9 @@ const WillField: FC<WillFieldProps> = ({
       <h3>{label}</h3>
       <WillButtons
         value={value}
-        update={(newVal) => updateWillpowers(will, newVal)}
+        value2={value2}
+        update={newVal => updateWillpowers("willpower", newVal)}
+        update2={newVal => updateWillpowers("willpowerChx", newVal)}
       />
     </div>
   );
@@ -562,18 +560,22 @@ const BloodField: FC<BloodFieldProps> = ({
 }) => {
   const value = bloodpools[blood];
   const label = titleCase(blood);
-  console.log(blood);
-  console.log(bloodpools);
   return (
     <div className="bloodpool">
       <h3>{label}</h3>
       <BloodButtons
         value={value}
-        update={(newVal) => updateBloodpools(blood, newVal)}
+        update={newVal => updateBloodpools(blood, newVal)}
       />
     </div>
   );
 };
+
+// const HealField: FC<HealFieldProps> = ({
+//   heal,
+//   healths,
+//   updateHealths,
+// })
 
 function titleCase(
   s: Attribute | Ability | Virtue | Humanity | Bloodpool | Willpower

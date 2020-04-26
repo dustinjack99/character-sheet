@@ -96,6 +96,8 @@ const initialSheet = {
     willpower: 0,
     willpowerChx: 0,
   },
+
+  healths: [false, false, false, false, false, false, false],
 };
 
 type SheetState = typeof initialSheet;
@@ -114,6 +116,9 @@ export type Bloodpool = keyof Bloodpools;
 
 export type Attributes = typeof initialSheet.attributes;
 export type Attribute = keyof Attributes;
+
+export type Healths = typeof initialSheet.healths;
+export type Health = keyof Healths;
 
 // const { talents } = initialSheet.abilities;
 // export type Talent = keyof typeof talents;
@@ -216,6 +221,14 @@ class CharacterSheetPage extends Component<{}, SheetState> {
     });
   };
 
+  updateHealths = (heal: Health, newValue: number) => {
+    const healths = this.state.healths;
+    const newHealths = { ...healths, [heal]: newValue };
+    this.setState({
+      healths: newHealths,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -230,6 +243,7 @@ class CharacterSheetPage extends Component<{}, SheetState> {
           updateHumanities={this.updateHumanities}
           updateBloodpools={this.updateBloodpools}
           updateWillpowers={this.updateWillpowers}
+          updateHealths={this.updateHealths}
         />
       </div>
     );
