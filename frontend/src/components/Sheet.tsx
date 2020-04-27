@@ -123,15 +123,7 @@ const BLOOD_POOL: Bloodpool[] = ["bloodpool"];
 
 const WILLPOWERS: Willpower[] = ["willpower"];
 
-const HEALTHS: Health[] = [
-  "bruised",
-  "crippled",
-  "hurt",
-  "incapacitated",
-  "injured",
-  "mauled",
-  "wounded",
-];
+const HEALTHS = [false, false, false, false, false, false, false];
 
 const Sheet: FC<SheetProps> = props => {
   const attrGroup = (attrs: Attribute[]) => {
@@ -220,8 +212,6 @@ const Sheet: FC<SheetProps> = props => {
     ));
   };
 
-  
-  TODO: make function, takes number, toggles damage
   const healGroup = (heals: boolean[], toggleDmg: (i: number) => void) => {
     return heals.map((damaged, i) => (
       <input
@@ -232,6 +222,8 @@ const Sheet: FC<SheetProps> = props => {
       />
     ));
   };
+
+  const toggleDmg = (i: number) => {};
 
   return (
     <>
@@ -374,7 +366,7 @@ const Sheet: FC<SheetProps> = props => {
           <div className="sheetBottomRight">
             <div className="health">
               <h3>Health</h3>
-              {healGroup(HEALTHS)}
+              {healGroup(HEALTHS, toggleDmg)}
             </div>
             <div className="weaknessExperience">
               <h3>Weakness</h3>

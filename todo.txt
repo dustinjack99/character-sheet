@@ -1,0 +1,5 @@
+REMEMBER FLOATING ROLLBOX - UI WITH FIXED CSS POSITION THAT POPULATES ROLLS AND ROLL OPTIONS 
+    - Able to add willpower before a roll
+
+CSS NOTES
+    - Makes sure stat buttons don't overflow vertically; keep group of five

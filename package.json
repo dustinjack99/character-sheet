@@ -6,7 +6,8 @@
     "build:frontend": "cd frontend && npm run build",
     "build:backend": "tsc",
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "tsc --noEmit"
   },
   "license": "UNLICENSED",
   "dependencies": {
