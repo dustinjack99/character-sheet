@@ -1,2 +1,111 @@
-*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}body{border:3px solid blue;margin:auto;text-align:center;max-width:1100px}.bloodpool{display:inline}main{margin:auto;width:80%}.allAtts,.description,.allAbs,.allAdv,.sheetBottom{border:3px solid red;display:-ms-grid;display:grid;-ms-grid-columns:1fr 1fr 1fr;grid-template-columns:1fr 1fr 1fr;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.attTitle{font-weight:bolder;margin:10px 0px}.attributesLeft,.attributesMid,.attributesRight,.descMid,.descLeft,.descRight,.abilitiesLeft,.abilitiesMid,.abilitiesRight{border:3px solid black}.statButt{border:none;background:transparent}@media screen and (max-width: 720px){input{width:100px}}@media screen and (max-width: 520px){input{width:75px}}
+.description {
+  border: 5px black solid;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.descMid,
+.descLeft,
+.descRight {
+  text-decoration: underline;
+}
+
+h2 {
+  text-align: center;
+  border-bottom: 5px solid #000;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+
+h2 span {
+  background: #fff;
+  padding: 0 10px;
+}
+
+.abilitiesLeft h4,
+.abilitiesMid h4,
+.abilitiesRight h4 {
+  text-decoration: underline;
+}
+
+.attTitle {
+  font-weight: bolder;
+  margin: 10px 0px;
+}
+
+.attributesLeft h4,
+.attributesMid h4,
+.attributesRight h4 {
+  text-decoration: underline;
+}
+
+.willpower,
+.bloodpool {
+  border: red 5px solid;
+  overflow-x: visible;
+}
+
+.bloodpoolchx,
+.willpowerchx {
+  border: red 5px solid;
+  overflow: inherit;
+}
+
+.sheetBottomMid,
+.sheetBottomLeft,
+.sheetBottomRight {
+  border: red 5px solid;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  border: 3px solid black;
+  border-radius: 5px;
+  margin: auto;
+  text-align: center;
+  max-width: 1100px;
+  width: 90%;
+  margin: 30px 30px 30px 30px;
+}
+
+.bloodpool {
+  display: inline;
+}
+
+main {
+  margin: auto;
+  width: 80%;
+}
+
+.allAtts,
+.allAbs,
+.allAdv,
+.sheetBottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.statButt {
+  border: none;
+  background: transparent;
+}
+
+@media screen and (max-width: 720px) {
+  input {
+    width: 100px;
+  }
+}
+@media screen and (max-width: 520px) {
+  input {
+    width: 75px;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
