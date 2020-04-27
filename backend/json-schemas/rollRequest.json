@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "message": { "type": "string" },
+    "dice": { "type": "integer", "minimum": 0, "exclusiveMaximum": 20 },
+    "willpowerSpent": { "type": "boolean" }
+  },
+  "required": ["message", "dice"],
+  "additionalProperties": false
+}
