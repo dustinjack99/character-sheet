@@ -1,11 +1,11 @@
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import express from "express";
-import path from "path";
-import { Messenger } from "./backend/messenger";
-import { makeApiRouter } from "./backend/apiRoutes";
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const express = require('express');
+const path = require('path');
+const Messenger = require('./backend/messenger');
+const makeApiRouter = require('./backend/apiRoutes');
 
-const FRONTEND_PATH = "../frontend/build";
+const FRONTEND_PATH = '../frontend/build';
 
 async function main() {
   // Config
@@ -24,11 +24,11 @@ async function main() {
 
   const token = process.env.DISCORD_TOKEN;
   if (!token) {
-    throw new Error("DISCORD_TOKEN not set");
+    throw new Error('DISCORD_TOKEN not set');
   }
   const channelId = process.env.CHANNEL_ID;
   if (!channelId) {
-    throw new Error("CHANNEL_ID not set");
+    throw new Error('CHANNEL_ID not set');
   }
 
   const messenger = await Messenger.init({ token });
@@ -36,12 +36,12 @@ async function main() {
   // Routing
 
   const apiRouter = makeApiRouter(messenger, channelId);
-  app.use("/api", apiRouter);
+  app.use('/api', apiRouter);
 
   app.use(express.static(path.join(__dirname, FRONTEND_PATH)));
 
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 
   // Launch
